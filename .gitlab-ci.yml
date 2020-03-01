@@ -1,0 +1,37 @@
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+variables:
+  PLAN: plan.tfplan
+  TF_VAR_do_token: $DIGITALOCEAN_TOKEN
+  TF_VAR_default_ssh_key_name: $SSH_KEY_NAME
+  TF_VAR_default_domain_name: $DOMAIN_NAME
+
+cache:
+  paths:
+    - .terraform
+
+before_script:
+  - terraform --version
+  - terraform init terraform
+
+stages:
+  - validate
+  - build
+
+validate:
+  stage: validate
+  script:
+    - terraform validate terraform
+
+plan:
+  stage: build
+  script:
+    - terraform plan -out $PLAN terraform
+  artifacts:
+    name: plan
+    paths:
+      - $PLAN
