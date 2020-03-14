@@ -9,6 +9,9 @@ variables:
   TF_VAR_do_token: $DIGITALOCEAN_TOKEN
   TF_VAR_default_ssh_key_name: $SSH_KEY_NAME
   TF_VAR_default_domain_name: $DOMAIN_NAME
+  TF_VAR_droplet_user_data_username: $USERNAME
+  TF_VAR_droplet_user_data_password: $PASSWORD
+  TF_VAR_droplet_user_data_ssh_port: $SSH_PORT
 
 cache:
   paths:

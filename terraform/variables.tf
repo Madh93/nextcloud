@@ -81,6 +81,22 @@ variable "droplet_backups" {
   default     = false
 }
 
+variable "droplet_user_data_username" {
+  type        = string
+  description = "Cloud-init user"
+}
+
+variable "droplet_user_data_password" {
+  type        = string
+  description = "Cloud-init temporary password"
+}
+
+variable "droplet_user_data_ssh_port" {
+  type        = number
+  description = "Cloud-init custom SSH port"
+  default     = 22
+}
+
 variable "firewall_name" {
   type        = string
   description = "Firewall name"

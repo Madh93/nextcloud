@@ -14,11 +14,11 @@ resource "digitalocean_droplet" "nextcloud" {
   image              = var.droplet_image
   region             = var.droplet_region
   size               = var.droplet_size
-  ssh_keys           = [data.digitalocean_ssh_key.default.id]
   volume_ids         = [digitalocean_volume.nextcloud.id]
   private_networking = var.droplet_private_networking
   monitoring         = var.droplet_monitoring
   backups            = var.droplet_backups
+  user_data          = local.user_data
 }
 
 # Networking

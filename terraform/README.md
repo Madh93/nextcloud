@@ -15,3 +15,5 @@ Required variables:
 - DigitalOcean Token: `do_token` 
 - DigitalOcean SSH key: `default_ssh_key_name`
 - DigitalOcean domain name: `default_domain_name`
+- Cloud-init user name: `droplet_user_data_username`
+- Cloud-init user password: `droplet_user_data_password`
