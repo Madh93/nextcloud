@@ -19,7 +19,7 @@ cache:
 
 before_script:
   - terraform --version
-  - terraform init terraform
+  - terraform init
 
 stages:
   - validate
@@ -28,12 +28,12 @@ stages:
 validate:
   stage: validate
   script:
-    - terraform validate terraform
+    - terraform validate
 
 plan:
   stage: build
   script:
-    - terraform plan -out $PLAN terraform
+    - terraform plan -out $PLAN
   artifacts:
     name: plan
     paths:
