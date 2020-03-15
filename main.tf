@@ -15,6 +15,7 @@ resource "digitalocean_droplet" "nextcloud" {
   region             = var.droplet_region
   size               = var.droplet_size
   volume_ids         = [digitalocean_volume.nextcloud.id]
+  ssh_keys           = [data.digitalocean_ssh_key.default.id]
   private_networking = var.droplet_private_networking
   monitoring         = var.droplet_monitoring
   backups            = var.droplet_backups
