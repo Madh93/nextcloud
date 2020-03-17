@@ -118,7 +118,5 @@ runcmd:
   - ufw allow https
   - ufw allow ${ssh_port}
   - echo "y" | ufw enable
-  - systemctl daemon-reload
-  - systemctl restart fail2ban sshd unattended-upgrades
   - /opt/install.sh
   - apt-get upgrade -y
