@@ -97,6 +97,30 @@ variable "droplet_user_data_ssh_port" {
   default     = 22
 }
 
+variable "droplet_user_data_nextcloud_version" {
+  type        = string
+  description = "Nextcloud snap channel release"
+  default     = "17/stable"
+}
+
+variable "droplet_user_data_nextcloud_username" {
+  type        = string
+  description = "Nextcloud admin username"
+  default     = "admin"
+}
+
+variable "droplet_user_data_nextcloud_password" {
+  type        = string
+  description = "Nextcloud admin password"
+  default     = "CH4NGM3please"
+}
+
+variable "droplet_user_data_nextcloud_letsencrypt_email" {
+  type        = string
+  description = "Let's Encrypt email to enable HTTPS"
+  default     = "yourname@example.com"
+}
+
 variable "firewall_name" {
   type        = string
   description = "Firewall name"

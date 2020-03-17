@@ -78,6 +78,36 @@ write_files:
       enabled = true
       port = ${ssh_port}
       logpath = %(sshd_log)s
+  - path: /opt/install.sh
+    permissions: 0700
+    owner: root:root
+    content: |
+      #! /bin/bash
+
+      echo -e "\n[1/5] Installing Nextcloud Snap package..."
+      export PATH="$PATH:/snap/bin"
+      snap install nextcloud --channel=${nextcloud_version}
+
+      echo -e "\n[2/5] Updating PHP memory limit..."
+      snap set nextcloud php.memory-limit=512M
+
+      echo -e "\n[3/5] Running Nextcloud installer..."
+      nextcloud.manual-install ${nextcloud_username} ${nextcloud_password}
+
+      echo -e "\n[4/5] Configuring external volume for data directory..."
+      snap connect nextcloud:removable-media && sleep 10
+      sed -i "s|'datadirectory'.*|'datadirectory' => '/mnt/${nextcloud_volume_name}',|" /var/snap/nextcloud/current/nextcloud/config/config.php
+      snap disable nextcloud
+      cp -r /var/snap/nextcloud/common/nextcloud/data/* /mnt/${nextcloud_volume_name}/
+      touch /mnt/${nextcloud_volume_name}/.ocdata
+      snap enable nextcloud
+
+      echo -e "\n[5/5] Applying extra settings (Trusted Domains, HTTPS, etc.)..."
+      nextcloud.occ config:system:set auth.bruteforce.protection.enabled --value=true
+      nextcloud.occ config:system:set trusted_domains 0 --value=${nextcloud_domain_name}
+      nextcloud.enable-https lets-encrypt <<< $'y\n${nextcloud_letsencrypt_email}\n${nextcloud_domain_name}\n'
+
+      echo -e "\nAll done! Nextcloud has been installed and configured successfully."
 runcmd:
   - while ! ping -c1 -W1 mirrors.digitalocean.com; do echo "$? exit status - Waiting for internet connection..."; sleep 1; done
   - apt-get update
@@ -90,4 +120,5 @@ runcmd:
   - echo "y" | ufw enable
   - systemctl daemon-reload
   - systemctl restart fail2ban sshd unattended-upgrades
+  - /opt/install.sh
   - apt-get upgrade -y
