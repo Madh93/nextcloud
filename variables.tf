@@ -84,11 +84,13 @@ variable "droplet_backups" {
 variable "droplet_user_data_username" {
   type        = string
   description = "Cloud-init user"
+  default     = "sammytheshark"
 }
 
 variable "droplet_user_data_password" {
   type        = string
   description = "Cloud-init temporary password"
+  default     = "P1easeCH4NGm3"
 }
 
 variable "droplet_user_data_ssh_port" {
