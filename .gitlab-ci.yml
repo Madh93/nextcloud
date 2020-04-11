@@ -6,12 +6,6 @@ image:
 
 variables:
   PLAN: plan.tfplan
-  TF_VAR_do_token: $DIGITALOCEAN_TOKEN
-  TF_VAR_default_ssh_key_name: $SSH_KEY_NAME
-  TF_VAR_default_domain_name: $DOMAIN_NAME
-  TF_VAR_droplet_user_data_username: $USERNAME
-  TF_VAR_droplet_user_data_password: $PASSWORD
-  TF_VAR_droplet_user_data_ssh_port: $SSH_PORT
 
 cache:
   paths:
@@ -28,12 +22,12 @@ stages:
 validate:
   stage: validate
   script:
-    - terraform validate
+    - terraform validate -var-file=$TFVARSFILE
 
 plan:
   stage: build
   script:
-    - terraform plan -out $PLAN
+    - terraform plan -var-file=$TFVARSFILE -out $PLAN
   artifacts:
     name: plan
     paths:
