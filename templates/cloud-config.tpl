@@ -78,6 +78,19 @@ write_files:
       enabled = true
       port = ${ssh_port}
       logpath = %(sshd_log)s
+
+      [nextcloud]
+      enabled = true
+      port = http,https
+      filter = nextcloud
+      logpath = /mnt/${nextcloud_volume_name}/nextcloud.log
+  - path: /etc/fail2ban/filter.d/nextcloud.conf
+    permissions: 0600
+    owner: root:root
+    content: |
+      [Definition]
+      failregex=^.*Login failed: '?.*'? \(Remote IP: '?<HOST>'?\).*$
+      ignoreregex =
   - path: /opt/install.sh
     permissions: 0700
     owner: root:root
