@@ -97,6 +97,8 @@ write_files:
     content: |
       #! /bin/bash
 
+      [[ -f /opt/installed ]] && exit 0
+
       echo -e "\n[1/5] Installing Nextcloud Snap package..."
       export PATH="$PATH:/snap/bin"
       snap install nextcloud --channel=${nextcloud_version}
@@ -121,6 +123,7 @@ write_files:
       nextcloud.enable-https lets-encrypt <<< $'y\n${nextcloud_letsencrypt_email}\n${nextcloud_domain_name}\n'
 
       echo -e "\nAll done! Nextcloud has been installed and configured successfully."
+      echo "$(date)" > /opt/installed
 runcmd:
   - while ! ping -c1 -W1 mirrors.digitalocean.com; do echo "$? exit status - Waiting for internet connection..."; sleep 1; done
   - apt-get update
