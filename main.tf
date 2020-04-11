@@ -70,3 +70,14 @@ resource "digitalocean_record" "nextcloud" {
   value  = digitalocean_floating_ip.nextcloud.ip_address
   ttl    = var.record_ttl
 }
+
+# Project
+
+resource "digitalocean_project_resources" "nextcloud" {
+  project = data.digitalocean_project.default.id
+  resources = [
+    digitalocean_volume.nextcloud.urn,
+    digitalocean_droplet.nextcloud.urn,
+    digitalocean_floating_ip.nextcloud.urn
+  ]
+}

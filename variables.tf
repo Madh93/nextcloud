@@ -8,6 +8,11 @@ variable "do_token" {
 
 # Data
 
+variable "default_project_name" {
+  type        = string
+  description = "DigitalOcean Project name"
+}
+
 variable "default_ssh_key_name" {
   type        = string
   description = "DigitalOcean SSH Key name"

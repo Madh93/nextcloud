@@ -15,5 +15,6 @@ The code to deploy my Nextcloud server on [DigitalOcean](https://www.digitalocea
 Required variables:
 
 - DigitalOcean Token: `do_token`
+- DigitalOcean project name: `default_project_name`
 - DigitalOcean SSH key: `default_ssh_key_name`
 - DigitalOcean domain name: `default_domain_name`
