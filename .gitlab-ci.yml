@@ -16,11 +16,12 @@ before_script:
   - terraform init
 
 stages:
-  - validate
+  - test
   - build
+  - deploy
 
 validate:
-  stage: validate
+  stage: test
   script:
     - terraform validate -var-file=$TFVARSFILE
 
@@ -32,3 +33,11 @@ plan:
     name: plan
     paths:
       - $PLAN
+
+apply:
+  stage: deploy
+  script:
+    - terraform apply -auto-approve -var-file=$TFVARSFILE
+  when: manual
+  only:
+    - master
