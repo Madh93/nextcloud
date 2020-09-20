@@ -20,6 +20,12 @@ resource "digitalocean_droplet" "nextcloud" {
   monitoring         = var.droplet_monitoring
   backups            = var.droplet_backups
   user_data          = local.user_data
+
+  lifecycle {
+    ignore_changes = [
+      user_data,
+    ]
+  }
 }
 
 # Networking
