@@ -6,7 +6,7 @@ The code to deploy my Nextcloud server on [DigitalOcean](https://www.digitalocea
 
 ## Requirements
 
-- Terraform >= 0.13
+- Terraform 1.0.0
 
 ## Usage
 
