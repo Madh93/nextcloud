@@ -12,10 +12,6 @@ cache:
     - .terraform
     - .terraform.lock.hcl
 
-before_script:
-  - terraform --version
-  - terraform init
-
 stages:
   - test
   - build
@@ -23,22 +19,32 @@ stages:
 
 validate:
   stage: test
+  before_script:
+    - terraform --version
+    - terraform init
   script:
-    - terraform validate -var-file=$TFVARSFILE
+    - terraform validate
 
 plan:
+  only:
+    refs:
+      - master
   stage: build
   script:
     - terraform plan -var-file=$TFVARSFILE -out $PLAN
   artifacts:
-    name: plan
+    name: tfplan
+    expire_in: 1 week
     paths:
       - $PLAN
 
 apply:
-  stage: deploy
-  script:
-    - terraform apply -auto-approve -var-file=$TFVARSFILE
   when: manual
   only:
-    - master
+    refs:
+      - master
+  stage: deploy
+  environment:
+    name: production
+  script:
+    - terraform apply -auto-approve -var-file=$TFVARSFILE
